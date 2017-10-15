@@ -1,0 +1,19 @@
+{empty name="list"}
+没有更多数据了
+{else/}
+{volist name="list" id="market"}
+<div class="row noticeList">
+    <a href="{:url('details?id='.$market['id'])}">
+        <div class="col-xs-2">
+            <img class="noticeImg" src="../image/1.png" />
+        </div>
+        <div class="col-xs-10">
+            <p class="title">{$market.title}</p>
+            <p class="intro">{$market.description}</p>
+            <p class="info">浏览量:{$market.view} <span class="pull-right">{$market.create_time|date="Y-m-d H:i:s",###}</span> </p>
+        </div>
+    </a>
+</div>
+{/volist}
+<button class="btn btn-default btn-block btn_load" onclick="loadpage({$num})">获取更多</button>
+{/empty}

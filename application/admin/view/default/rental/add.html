@@ -1,0 +1,175 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<script type="text/javascript" src="__PUBLIC__/static/uploadify/jquery.uploadify.min.js"></script>
+<div class="main-title">
+    <h2>{:isset($info['id'])?'编辑':'新增'}租售</h2>
+</div>
+<form action="{:url()}" method="post" class="form-horizontal">
+    <div class="form-item">
+        <label class="item-label">标题<span class="check-tips">（标题）</span></label>
+        <div class="controls">
+            <input type="text" class="text input-large" name="title" value="{$info.title|default=''}">
+        </div>
+    </div>
+
+
+    <div class="form-item">
+        <label class="item-label">发布人<span class="check-tips">（发布人）</span></label>
+        <div class="controls">
+            <input type="text" class="text input-large" name="name" value="{$info.name|default=''}">
+        </div>
+    </div>
+
+    <div class="form-item">
+        <label class="item-label">价格</label>
+        <div class="controls">
+            <input type="text" class="text input-large" name="price" value="{$info.price|default=''}">&nbsp;
+            单位：
+            <select style="width: 200px;" name="company">
+                <option value="1"  <?php if($info[company]==1) echo("selected");?>>元/月</option>
+                <option value="2" <?php if($info[company]==2) echo("selected");?>>万元</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-item">
+        <label class="item-label">类型</label>
+        <div class="controls">
+            <select style="width: 200px;" name="type" >
+                <option value="1" <?php if($info[type]==1) echo("selected");?>>出租</option>
+                <option value="2" <?php if($info[type]==2) echo("selected");?>>销售</option>
+            </select>
+        </div>
+    </div>
+
+    <!--<div class="form-item">-->
+    <!--<label class="item-label">模块<span class="check-tips">（所属模块）</span></label>-->
+    <!--<div class="controls">-->
+    <!--<input type="text" class="text input-large" name="module" value="{$info.module|default='admin'}">-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <div class="form-item">
+
+        <input type="hidden" name="content" value="0">
+        <link rel="stylesheet" href="/static/static/kindeditor/default/default.css">
+        <script charset="utf-8" src="/static/static/kindeditor/kindeditor-min.js"></script>
+        <script charset="utf-8" src="/static/static/kindeditor/zh_CN.js"></script>
+
+        </label>
+    </div>
+<!--    上传图片-->
+    <div class="controls">
+        <input type="file" id="upload_picture_path">
+        <input type="hidden" name="path" id="cover_id_path" value="{$info.path|default=''}"/>
+        <div class="upload-img-box">
+        </div>
+    </div>
+    <script type="text/javascript">
+        //上传图片
+        /* 初始化上传插件 */
+        var path=$('#cover_id_path').val();
+        if(path){
+            $("#cover_id_path").parent().find('.upload-img-box').html(
+                '<div class="upload-pre-item"><img src="' + path + '"/></div>'
+            );
+        }
+        //			alert(path);
+        $("#upload_picture_path").uploadify({
+            "height": 30,
+            "swf": "__PUBLIC__/static/uploadify/uploadify.swf",
+            "fileObjName": "download",
+            "buttonText": "上传图片",
+            "uploader": "{:url('File/uploadPicture',array('session_id'=>session_id()))}",
+            "width": 120,
+            'removeTimeout': 1,
+            'fileTypeExts': '*.jpg; *.png; *.gif;',
+            "onUploadSuccess": uploadPicturepath,
+            'onFallback': function () {
+                alert('未检测到兼容版本的Flash.');
+            }
+        });
+        function uploadPicturepath(file, data) {
+            var data = $.parseJSON(data);
+            var src = '';
+            if (data.status) {
+                $("#cover_id_path").val(data.path);
+                src = data.url || '' + data.path
+                $("#cover_id_path").parent().find('.upload-img-box').html(
+                    '<div class="upload-pre-item"><img src="' + src + '"/></div>'
+                );
+
+            } else {
+                updateAlert(data.info);
+                setTimeout(function () {
+                    $('#top-alert').find('button').click();
+                    $(that).removeClass('disabled').prop('disabled', false);
+                }, 1500);
+            }
+        }
+    </script>
+
+
+
+    <div class="form-item ">
+        <label class="item-label">描述<span class="check-tips"></span></label>
+        <div class="controls">
+            <label class="textarea input-large">
+                <textarea name="description">{$info.description|default=''}</textarea>
+            </label>                    </div>
+    </div>
+
+    <div class="form-item">
+        <label class="item-label">详情<span class="check-tips">（活动详情）</span></label>
+        <textarea name="content" rows="8" cols="50">{$info.content|default=''}</textarea>
+        {:hook('adminArticleEdit', array('name'=>'content','value'=>$info['content']))}
+
+    </div>
+    <div class="form-item">
+        <label class="item-label">结束时间<span class="check-tips">（社区服务结束时间）</span></label>
+        <div class="controls">
+            <input type="date" class="text input-large" name="end_time" value="{$info.end_time|default=''}">
+        </div>
+    </div>
+
+    <div class="form-item">
+        <label class="item-label">电话<span class="check-tips">（联系电话）</span></label>
+        <div class="controls">
+            <input type="text" class="text input-small" name="tel" value="{$info.tel|default=''}">
+        </div>
+    </div>
+    <!--<div class="form-item">-->
+        <!--<label class="item-label">状态<span class="check-tips">（处理状态）</span></label>-->
+        <!--<div class="controls">-->
+            <!--<label class="radio"><input type="radio" name="status" value="1" <?php if($info[status]==1) echo("checked");?>>正常</label>-->
+            <!--<label class="radio"><input type="radio" name="status" value="0" <?php if($info[status]==0) echo("checked");?>>失效</label>-->
+        <!--</div>-->
+    <!--</div>-->
+    <div class="form-item">
+        <input type="hidden" name="id" value="{$info.id|default=''}">
+        <button class="btn submit-btn ajax-posts" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+        <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+    </div>
+</form>
+{/block}
+
+{block name="script"}
+<script type="text/javascript">
+    Think.setValue("pid", {$info.pid|default = 0});
+    Think.setValue("hide", {$info.hide|default = 0});
+    Think.setValue("is_dev", {$info.is_dev|default = 0});
+    //导航高亮
+    highlight_subnav('{:url('index')}');
+</script>
+{/block}
+<script>
+    $('.input_cxcalendar').each(function(){
+        var a = new Calendar({
+            targetCls: $(this),
+            type: 'yyyy-mm-dd' 或者 ‘yyyy-mm-dd HH:MM:SS’ 或者 ‘yyyy-mm-dd HH:MM’;
+    },function(val){
+            console.log(val);  // 回调函数 当前选中的值
+        });
+    });
+</script>　

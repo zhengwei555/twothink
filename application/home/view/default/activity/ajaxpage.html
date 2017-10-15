@@ -1,0 +1,20 @@
+{empty name="list"}
+没有更多数据了
+{else/}
+{volist name="list" id="activity"}
+<div class="row noticeList">
+    <a href="{:url('details?id='.$activity['id'])}"> </a>
+        <div class="col-xs-2">
+            <img class="noticeImg" src="{$activity.path}" />
+        </div>
+        <div class="col-xs-10">
+            <p class="title">{$activity.title}</p>
+            <p class="intro">{$activity.description}</p>
+            <p class="info">浏览量:{$activity.view} <span class="pull-right">{$activity.create_time|date="Y-m-d H:i:s",###}</span> </p>
+        </div>
+        <img class="noticeImg" src="/home/image/1.png" />
+</div>
+
+{/volist}
+<button class="btn btn-default btn-block btn_load" onclick="loadpage({$num})">获取更多</button>
+{/empty}
