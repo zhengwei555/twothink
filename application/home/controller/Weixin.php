@@ -149,27 +149,57 @@ class Weixin extends Controller {
         $menu = $app->menu;
         $buttons = [
             [
-                "type" => "click",
-                "name" => "今日歌曲",
-                "key"  => "V1001_TODAY_MUSIC"
-            ],
-            [
                 "name"       => "菜单",
                 "sub_button" => [
                     [
-                        "type" => "view",
-                        "name" => "搜索",
-                        "url"  => "http://www.soso.com/"
+                        "type" => "view",//点击跳转 相当于a标签
+                        "name" => "首页",
+                        "url"  => "http://zwphp5.jackpuls.top/home/index/index.html"
                     ],
                     [
                         "type" => "view",
-                        "name" => "视频",
-                        "url"  => "http://v.qq.com/"
+                        "name" => "服务",
+                        "url"  => "http://zwphp5.jackpuls.top/home/index/fuwu.html"
                     ],
                     [
-                        "type" => "click",
-                        "name" => "赞一下我们",
-                        "key" => "V1001_GOOD"
+                        "type" => "view",
+                        "name" => "发现",
+                        "url"  => "http://zwphp5.jackpuls.top/home/index/faxian.html"
+                    ],
+                    [
+                        "type" => "view",
+                        "name" => "我的",
+                        "url"  => "http://zwphp5.jackpuls.top/home/index/my.html"
+                    ],
+                ],
+            ],
+            [
+                "name"       => "导航",
+                "sub_button" => [
+                    [
+                        "type" => "view",//点击跳转 相当于a标签
+                        "name" => "小区通知",
+                        "url"  => "http://zwphp5.jackpuls.top/home/document/survey.html"
+                    ],
+                    [
+                        "type" => "view",
+                        "name" => "便民服务",
+                        "url"  => "http://zwphp5.jackpuls.top/home/document/survey.html"
+                    ],
+                    [
+                        "type" => "view",
+                        "name" => "在线报修",
+                        "url"  => "http://zwphp5.jackpuls.top/home/repair/add.html"
+                    ],
+                    [
+                        "type" => "view",
+                        "name" => "商家活动",
+                        "url"  => "http://zwphp5.jackpuls.top/home/market/index.html"
+                    ],
+                    [
+                        "type" => "view",
+                        "name" => "小区活动",
+                        "url"  => "http://zwphp5.jackpuls.top/home/activity/index.html"
                     ],
                 ],
             ],
